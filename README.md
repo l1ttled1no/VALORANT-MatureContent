@@ -12,6 +12,7 @@ The provided scripts will:
 3. Copy the necessary files to the destination path.
 4. Remove the copied files from the destination path.
 
+This trick is needed for some account which cannot accessed to enable the Mature Content in General menu. 
 ## Video tutorial how this trick works
 
 [![Video tutorial how this trick works](https://img.youtube.com/vi/DXQOpayNVkY/maxresdefault.jpg)](https://youtu.be/DXQOpayNVkY)

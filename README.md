@@ -1,9 +1,8 @@
 # Mature Content Copying Files
 
-This project contains scripts to copy mature content files for VALORANT if the 'Mature Content' option is not enabled in the game for some accounts (Vietnam/Australia Region).
+This project contains scripts to copy mature content files for VALORANT if the 'Mature Content' option is not enabled in the game for some accounts (Vietnam/Australia/etc Region).
 
-
-
+Give a Star if you found this project interested. 
 ## Description
 
 The provided scripts will:
@@ -28,6 +27,9 @@ This trick is needed for some account which cannot accessed to enable the Mature
 
 **DISCLAIMER:** I WILL NOT BE RESPONSIBLE IF THE ACCOUNT IS BANNED FOR USING THIS TRICK, AS I HAVE BEEN DOING IT SINCE SEPTEMBER 2022 AND HAVE NOT BEEN BANNED.
 
+MODIFICATION ON GAME FILES CAN LEAD TO AN SUSPENSION. 
+
+THE DATA FILES IN THIS PROJECT ARE OBTAINED FROM AN U.S VALID RIOT ACCOUNT. 
 ## Contribution
 
 Created by: @l1ttled1no

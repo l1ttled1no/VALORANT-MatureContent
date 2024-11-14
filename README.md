@@ -1,6 +1,6 @@
 # Mature Content Copying Files
 
-This project contains scripts to copy mature content files for VALORANT if the 'Mature Content' option is not enabled in the game.
+This project contains scripts to copy mature content files for VALORANT if the 'Mature Content' option is not enabled in the game for some accounts (Vietnam/Australia Region).
 
 
 

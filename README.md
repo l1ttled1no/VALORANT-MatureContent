@@ -16,8 +16,8 @@ This trick is needed for some account which cannot accessed to enable the Mature
 
 [![Video tutorial how this trick works](https://img.youtube.com/vi/DXQOpayNVkY/maxresdefault.jpg)](https://youtu.be/DXQOpayNVkY)
 
-## Video tutorial how to use this batch
-
+## Video tutorial how to use this batch (Vietnamese subs only) 
+[![Video tutorial how this trick works](https://img.youtube.com/vi/GyZfE7pt7pA/maxresdefault.jpg)](https://youtu.be/GyZfE7pt7pA)
 ## Usage
 1. Make sure you have press the **UPDATE** button in the game (disable the Auto-Update for Valorant is recommended)
 2. Ensure you have the required data files (`MatureData-WindowsClient.pak` and `MatureData-WindowsClient.sig`) in the `data` directory.

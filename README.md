@@ -1,6 +1,6 @@
 # VALORANT Mature Content Manager
 
-![VALORANT Logo](logo/vlr.jpg)
+
 
 This project contains tools to copy mature content files for VALORANT if the 'Mature Content' option is not enabled in the game for certain accounts (Vietnam, Australia, etc. regions).
 

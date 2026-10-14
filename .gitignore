@@ -2,3 +2,8 @@ path.txt
 build
 *.spec
 *.zip
+backups
+__pycache__
+app_config.json
+!VALORANT-MatureContent.spec
+dist

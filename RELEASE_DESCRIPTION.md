@@ -1,30 +1,28 @@
-# VALORANT Mature Content Manager - Release v11.02
+# VALORANT Mature Content Manager - v2.0
 
 ## 🎮 What's New
-Enable mature content in VALORANT for regions where this option is restricted (Vietnam, Australia, etc.). This release is compatible with **Patch 11.02 (UE5)**.
+A rewrite for **Patch 13.08**. Since VN accounts no longer show the Mature Content option in game, the tool now handles both things blood and corpses need:
+
+- **Account settings**: turns **Show blood** / **Show corpses** on (or off) for your Riot account, the same way the crosshair tool ValorantCC saves settings. Each Save backs up your previous settings first, and you can restore any backup from the **Advanced** menu.
+- **Auto-apply on Play**: watches Riot Client and copies the Mature files right after it finishes checking files, before the game starts. You no longer need to time the copy by hand.
+- **New interface**: one window with three steps (Riot Client → Account settings → Game files), a banner that says what to do next, tooltips on every button, and Vietnamese / English.
+- Finds the VALORANT install folder automatically and shows it, and warns when the Mature files no longer match the game patch (grey boxes in game).
 
 ## 📦 What's Included
-- **GUI Version**: `VALORANT-MatureContent-Manager.exe` - User-friendly interface with progress tracking
-- **Non-GUI Version**: `NON_GUI.exe` + `script.py` - Command-line version for advanced users
-- **Required Data Files**: All mature content files needed for the process
-- **Complete Documentation**: Bilingual README (English/Vietnamese) with step-by-step instructions
-
-## ✨ Key Features
-- ✅ **Safe & Tested**: Used successfully since September 2022
-- ✅ **Dual Interface**: Choose between GUI or command-line versions
-- ✅ **Auto-Detection**: Verifies files and paths before execution
-- ✅ **Real-time Feedback**: Progress tracking and detailed output logs
-- ✅ **Bilingual Support**: Full English and Vietnamese documentation
+- `VALORANT-MatureContent-Manager.exe`: the app (the Mature data files are bundled inside)
+- `VALORANT-MatureContent-CLI.exe`: command-line version
+- `HuongDan.docx`: step-by-step guide (Vietnamese)
 
 ## 🚀 Quick Start
-1. Extract all files to a folder
-2. Run `VALORANT-MatureContent-Manager.exe` (GUI) or `NON_GUI.exe` (CLI)
-3. Select your VALORANT installation directory
-4. Click "Apply Mature Content"
+1. Open Riot Client and log in.
+2. Run `VALORANT-MatureContent-Manager.exe`.
+3. Turn on **Show blood** / **Show corpses** and click **Save** (VALORANT must be closed).
+4. Keep **Apply automatically when pressing Play** on and leave the tool open.
+5. Press **Play** in Riot Client.
 
 ## ⚠️ Important Notes
-- **Update VALORANT first** before using this tool
-- **Windows Defender warning** is normal - click "More info" → "Run anyway"
-- **Use at your own risk** - modification of game files may lead to account suspension
+- **Windows Defender warning** is normal: click "More info" → "Run anyway".
+- **Use at your own risk**: modifying game files may lead to account suspension.
+- The previous version is kept in `old_script/` in the repository.
 
 **Created by:** @l1ttled1no | **Support:** [YouTube Channel](https://youtube.com/@l1ttled1no)

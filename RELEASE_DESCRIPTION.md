@@ -1,6 +1,12 @@
-# VALORANT Mature Content Manager - v2.0
+# VALORANT Mature Content Manager - v2.0.1
 
-## 🎮 What's New
+## 🔒 v2.0.1: locked while in game
+- The tool now shows whether you are **in Riot Client** or **in game**.
+- While VALORANT is running, the blood / corpse switches, **Save**, **Apply now** and restoring a backup are locked, and the game files are never copied. Changing them mid-game would be overwritten by the game or fail halfway.
+- The game is detected from both `VALORANT.exe` and `VALORANT-Win64-Shipping.exe`.
+- Auto-apply on Play still works as before: it copies the files a few seconds before the game process starts.
+
+## 🎮 What's New in v2.0
 A rewrite for **Patch 13.08**. Since VN accounts no longer show the Mature Content option in game, the tool now handles both things blood and corpses need:
 
 - **Account settings**: turns **Show blood** / **Show corpses** on (or off) for your Riot account, the same way the crosshair tool ValorantCC saves settings. Each Save backs up your previous settings first, and you can restore any backup from the **Advanced** menu.

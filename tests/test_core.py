@@ -7,7 +7,7 @@ from unittest import mock
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from core import paks, paths, settings
+from core import game, paks, paths, settings
 from core.launch_watcher import LaunchWatcher
 from i18n import STRINGS, Translator
 
@@ -62,9 +62,10 @@ class PaksTest(unittest.TestCase):
                 file.write(name)
         for ext in ('pak', 'ucas'):
             open(os.path.join(self.paks, f'VNGLogo-WindowsClient.{ext}'), 'w').close()
-        patcher = mock.patch.object(paths, 'data_dir', return_value=self.data)
-        patcher.start()
-        self.addCleanup(patcher.stop)
+        for patcher in (mock.patch.object(paths, 'data_dir', return_value=self.data),
+                        mock.patch('core.paks.is_game_running', return_value=False)):
+            patcher.start()
+            self.addCleanup(patcher.stop)
         self.addCleanup(self.tmp.cleanup)
 
     def test_status_and_apply(self):
@@ -79,11 +80,34 @@ class PaksTest(unittest.TestCase):
             file.write('old patch')
         self.assertEqual(paks.pak_status(self.paks), paks.DIFFERENT)
 
+    def test_refuses_while_game_running(self):
+        with mock.patch('core.paks.is_game_running', return_value=True):
+            with self.assertRaises(paks.PaksError) as ctx:
+                paks.apply_paks(self.paks)
+        self.assertEqual(ctx.exception.code, 'game_running')
+        # Nothing was touched
+        self.assertEqual(paks.pak_status(self.paks), paks.VNG)
+
     def test_bad_paks_dir(self):
         self.assertEqual(paks.pak_status(self.data), paks.NO_PAKS)
         with self.assertRaises(paks.PaksError) as ctx:
             paks.apply_paks(self.data)
         self.assertEqual(ctx.exception.code, 'bad_paks')
+
+
+class GameTest(unittest.TestCase):
+    def test_detects_launcher_or_game(self):
+        for running, expected in (({'riotclientservices.exe', 'explorer.exe'}, False),
+                                  ({'valorant.exe'}, True),
+                                  ({'valorant-win64-shipping.exe'}, True)):
+            with mock.patch.object(game, 'running_processes', return_value=running):
+                self.assertEqual(game.is_game_running(), expected, running)
+
+    def test_parses_tasklist_csv(self):
+        output = ('"Riot Client.exe","5132","Console","1","120,000 K"\n'
+                  '"VALORANT-Win64-Shipping.exe","35020","Console","1","2,940,168 K"\n')
+        with mock.patch('core.game.subprocess.run', return_value=mock.Mock(stdout=output)):
+            self.assertEqual(game.running_processes(), {'riot client.exe', 'valorant-win64-shipping.exe'})
 
 
 class PathsTest(unittest.TestCase):

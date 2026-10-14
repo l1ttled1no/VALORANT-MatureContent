@@ -227,6 +227,9 @@ class App:
         if self.login['state'] != 'logged_in':
             self.show_error(SettingsError('', 'not_logged_in'))
             return
+        if self.login['game_running']:
+            self.show_error(SettingsError('', 'game_running'))
+            return
         backups = settings.list_backups(self.login['puuid'])
         if not backups:
             messagebox.showinfo(self.t('menu_restore'), self.t('err_no_backup'))
@@ -389,7 +392,7 @@ class App:
                                        command=self.apply_now)
         self.apply_button.grid(row=0, column=2, sticky='e')
         Tooltip(auto_switch, self.t('tip_auto'))
-        Tooltip(self.apply_button, lambda: self.t('tip_apply_auto' if self.auto_apply_var.get() else 'tip_apply'))
+        Tooltip(self.apply_button, self.apply_tooltip)
 
         # Game folder in use, so the user can check it is the right install
         path_row = ttk.Frame(frame, style='Card.TFrame')
@@ -437,6 +440,14 @@ class App:
         else:
             self.log_frame.grid_remove()
         self.render()
+
+    def apply_tooltip(self):
+        """Explain what Apply now does, or why it is greyed out"""
+        if self.login['game_running']:
+            return self.t('tip_apply_ingame')
+        if self.auto_apply_var.get():
+            return self.t('tip_apply_auto')
+        return self.t('tip_apply')
 
     def save_tooltip(self):
         """Explain what Save does, or why it is greyed out"""
@@ -500,7 +511,8 @@ class App:
         self.files_status.configure(text=t(f'files_{self.pak_status}'))
         self.path_label.configure(text=t('game_path', path=self.paks_dir or t('not_found')))
         # Auto-apply already swaps the files on Play, so the manual button is only for manual mode
-        can_apply = self.pak_status != paks.NO_PAKS and not self.busy and not self.auto_apply_var.get()
+        can_apply = (self.pak_status != paks.NO_PAKS and not self.busy and not self.auto_apply_var.get()
+                     and not login['game_running'])
         self.apply_button.configure(state='normal' if can_apply else 'disabled')
 
         self.details_button.configure(text=('▾ ' if self.details_open else '▸ ') + t('details'))

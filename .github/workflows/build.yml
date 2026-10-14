@@ -1,0 +1,74 @@
+name: Build
+
+on:
+  push:
+    branches: [main, release]
+  # main is protected, so changes arrive as PRs: build them before merging
+  pull_request:
+    branches: [main]
+  # A published GitHub Release also gets the zip attached
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install PyInstaller
+        run: python -m pip install pyinstaller==6.22.3
+
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Build executables
+        run: pyinstaller --noconfirm VALORANT-MatureContent.spec
+
+      # Only what an end user needs: the two .exe (data files are bundled inside) and the guide
+      - name: Collect release files
+        shell: pwsh
+        run: |
+          $name = "VALORANT-MatureContent-$("${{ github.ref_name }}" -replace '[^\w.-]', '-')-$("${{ github.sha }}".Substring(0, 7))"
+          $out = "package/$name"
+          New-Item -ItemType Directory -Force $out | Out-Null
+          Copy-Item dist/VALORANT-MatureContent-Manager.exe, dist/VALORANT-MatureContent-CLI.exe $out
+          Copy-Item docs/HuongDan.docx $out
+          Get-ChildItem $out | Format-Table Name, Length
+          "PACKAGE_NAME=$name" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.PACKAGE_NAME }}
+          path: package/${{ env.PACKAGE_NAME }}/
+          if-no-files-found: error
+          retention-days: 30
+
+  attach-to-release:
+    if: github.event_name == 'release'
+    needs: build
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: package
+
+      - name: Upload zip to the release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $folder = Get-ChildItem package -Directory | Select-Object -First 1
+          $zip = "$($folder.Name).zip"
+          Compress-Archive -Path "$($folder.FullName)/*" -DestinationPath $zip
+          gh release upload "${{ github.event.release.tag_name }}" $zip --repo "${{ github.repository }}" --clobber

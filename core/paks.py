@@ -5,6 +5,7 @@ import os
 import shutil
 
 from core import paths
+from core.game import is_game_running
 
 MATURE_FILES = [f"MatureData-WindowsClient.{ext}" for ext in ('pak', 'sig', 'ucas', 'utoc')]
 VNG_PATTERN = 'VNGLogo-WindowsClient.*'
@@ -83,6 +84,9 @@ def apply_paks(paks_dir, log=lambda message: None):
     """Copy MatureData into Paks and remove the VNGLogo files"""
     if not paths.is_paks_dir(paks_dir):
         raise PaksError(f"Not a VALORANT Paks folder: {paks_dir}", 'bad_paks')
+    if is_game_running():
+        # The game has its paks open; swapping now would fail halfway or not take effect
+        raise PaksError("VALORANT is running, close it before copying files", 'game_running')
 
     for source in check_data():
         try:

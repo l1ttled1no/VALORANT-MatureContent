@@ -11,13 +11,13 @@ import json
 import os
 import re
 import ssl
-import subprocess
 import urllib.error
 import urllib.request
 import zlib
 from datetime import datetime
 
 from core import paths
+from core.game import is_game_running
 
 SETTINGS_TYPE = 'Ares.PlayerSettings'
 PREF_HOSTS = [
@@ -224,17 +224,6 @@ def list_backups(puuid):
         backups.append({'path': path, 'created': created,
                         'blood': is_enabled(flags, BLOOD_KEYS), 'corpses': is_enabled(flags, CORPSE_KEYS)})
     return sorted(backups, key=lambda backup: backup['created'], reverse=True)
-
-
-def is_game_running():
-    try:
-        # CREATE_NO_WINDOW keeps a console from flashing up in the windowed .exe
-        output = subprocess.run(['tasklist', '/FI', 'IMAGENAME eq VALORANT-Win64-Shipping.exe'],
-                                capture_output=True, text=True,
-                                creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0)).stdout
-        return 'VALORANT-Win64-Shipping.exe' in output
-    except OSError:
-        return False
 
 
 def read_flags():
